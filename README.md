@@ -1,5 +1,5 @@
 # Discord Bot Helper - FCC Certifications and Curriculums
-# [Live Bot]()
+# [Live Bot](https://replit.com/@OrchaniousS/fcc-discordBot?v=1)
 
 - FCC discord bot which helps you get more information about available certifications and resources for coding.
 

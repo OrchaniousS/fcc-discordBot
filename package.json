@@ -1,0 +1,29 @@
+{
+  "name": "fcc-discordBot",
+  "version": "1.0.0",
+  "description": "- FCC discord bot which helps you get more information about available certifications and resources for coding.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OrchaniousS/fcc-discordBot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OrchaniousS/fcc-discordBot/issues"
+  },
+  "homepage": "https://github.com/OrchaniousS/fcc-discordBot#readme",
+  "dependencies": {
+    "@replit/database": "^2.0.1",
+    "discord.js": "^12.5.3",
+    "express": "^4.17.1",
+    "mongodb": "^3.6.6",
+    "mongoose": "^5.12.3",
+    "node-fetch": "^2.6.1"
+  }
+}
