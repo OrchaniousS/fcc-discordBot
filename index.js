@@ -11,9 +11,7 @@ const db = new Database()
 const client = new Discord.Client()
 
 // MongoDB models
-const RWD = require('./models/rwd.js'),
-JS = require('./models/jsAlgos.js'),
-FEdev = require('./models/FeDevLib.js')
+const RWD=JS=FEdev = require('./models/zmodels.js')
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -38,12 +36,13 @@ client.on('message',async (msg) =>{
       msg.reply(`
       Available commands
       !help - for help and other commands.
-      !clearchat - clearing chat [Max limit:99 messages]
-
+      !clearchat || !clear - clearing chat [Max limit:99 messages]
+      
       [Show available keywords]
-      $show - See keywords for all the certifications.
+      $show 'X'- See keywords for the specified certifications.
 
       [Add new keywords per certification/subject]
+      $new 'X' - 
       $new rwd - Insert new keywords for Responsive Web Design.
       $new js - Insert new keywords for JavaScript Algorithms and Data Structures.
       $new fed - Insert new keywords for Front End Development Libraries.
@@ -55,11 +54,10 @@ client.on('message',async (msg) =>{
       $new isqa - Insert new keywords for Information Security.
       $new mlpy - Insert new keywords for Machine Learning with Python.
       $new cprep - Insert new keywords for Coding Interview Prep.
-      `)
-  }
+      `)}
 
   // Clearing chat [Limited to 99 messages only]
-    if (msg.content.toLowerCase().startsWith("!clearchat")) {
+    if (msg.content.toLowerCase().startsWith("!clearchat")|| msg.content.toLowerCase().startsWith("!clear")) {
         const clear = async()=> {
             msg.delete();
             const fetched = await msg.channel.messages.fetch({limit: 99});
