@@ -20,6 +20,7 @@
   "homepage": "https://github.com/OrchaniousS/fcc-discordBot#readme",
   "dependencies": {
     "@replit/database": "^2.0.1",
+    "cors": "^2.8.5",
     "discord.js": "^12.5.3",
     "express": "^4.17.1",
     "mongodb": "^3.6.6",
