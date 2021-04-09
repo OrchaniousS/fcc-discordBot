@@ -11,9 +11,9 @@ const db = new Database()
 const client = new Discord.Client()
 
 // MongoDB models
-const RWD = require('./models/rwd.js')
-const JS = require('./models/jsAlgos.js')
-const FEdev = require('./models/FeDevLib.js')
+const RWD = require('./models/rwd.js'),
+JS = require('./models/jsAlgos.js'),
+FEdev = require('./models/FeDevLib.js')
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -81,17 +81,17 @@ client.on('message',async (msg) =>{
 
   const saveKeyWord = (collection) =>
     collection.save((err,savedKey)=>{
-      if(err || !savedKey){console.log('failed saving.')}
-        else{console.log('saved successfully.')}})
+      if(err || !savedKey){
+        msg.channel.send('Error saving new key.')
+        console.log('failed saving.')}
+        else{
+          msg.channel.send('New keyword added.')
+          console.log('saved successfully.')
+          }})
   
-
   if(rwdKW) return saveKeyWord(rwdKW)
-
   if(jsKW) return saveKeyWord(jsKW)
-
   if(fedvKW) return saveKeyWord(fedvKW)
-
-  msg.channel.send('New keyword added.')
   }
   // END[Save: new keyword per collection]
 
@@ -102,16 +102,26 @@ client.on('message',async (msg) =>{
   //   msg.channel.send('New keyword deleted.')
   // }
 
-  
   // Show: Available keywords
   if(msg.content.startsWith('$show')){
+    const showRWD =  msg.content.split('$show rwd').length === 2
+    console.log(showRWD)
+
     var arrKeys = [];
-    var responsiveWD = await RWD.find(function(err,data){
+    const collectionKeys = async(collection)=>
+      await collection.find(function(err,data){
       if(err||!data) return err
-      else{return data.map(item=>{if(item.keywords){return arrKeys.push(item.keywords)}}
+      else{return data.map(item=>{if(item['keywords']){return arrKeys.push(item.keywords)}}
       )}
     })
-    msg.reply(`Responsive Web Design: ${[...arrKeys]}`)
+
+    if(showRWD){
+      collectionKeys(RWD)
+      msg.reply(`Responsive Web Design: ${[...arrKeys]}`)
+    }
+
+    // collectionKeys(JS)
+    // collectionKeys(FEdev)
   }
 
 
