@@ -1,17 +1,15 @@
 const Discord = require("discord.js")
 const mongoose = require('mongoose')
 const mongoDB = require('mongodb')
-const Database = require("@replit/database")
 const stayOn = require('./server')
+
+// MongoDB models
+const {RWD,JS,FEdev} = require('./models/zmodels.js')
 
 // usable as alternative to fetch or axios packages for REST api requests.
 // const fetch = require('node-fetch')
 
-const db = new Database()
 const client = new Discord.Client()
-
-// MongoDB models
-const RWD=JS=FEdev = require('./models/zmodels.js')
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -93,6 +91,17 @@ client.on('message',async (msg) =>{
   }
   // END[Save: new keyword per collection]
 
+  // Delete blank keywords
+
+  if(msg.content.startsWith('$del')){
+     RWD.find((err,data)=>{
+        if (err || !data) return console.log(err)
+        else{
+          data.map(item=>console.log($objectToArray(item)))
+        }
+    })
+  }
+
   // to add: Clear blank records without keywords
   // if(msg.content.startsWith('$del')){
   //   index = parseInt(msg.content.split('$del ')[1])
@@ -102,24 +111,54 @@ client.on('message',async (msg) =>{
 
   // Show: Available keywords
   if(msg.content.startsWith('$show')){
+    // const showAll = msg.content.match(/[^\$show$]/);
     const showRWD =  msg.content.split('$show rwd').length === 2
-    console.log(showRWD)
+    const showJS =  msg.content.split('$show js').length === 2
+    const showFED =  msg.content.split('$show fed').length === 2
 
-    var arrKeys = [];
-    const collectionKeys = async(collection)=>
-      await collection.find(function(err,data){
-      if(err||!data) return err
-      else{return data.map(item=>{if(item['keywords']){return arrKeys.push(item.keywords)}}
-      )}
-    })
+    let results = [];
 
-    if(showRWD){
-      collectionKeys(RWD)
-      msg.reply(`Responsive Web Design: ${[...arrKeys]}`)
+    // Find keywords by model name
+    const findKW = (x) => x.find((err,data)=>{
+
+
+      if(err || !data) return console.log('No keyword found')
+      else{return data.map((item,i)=>{
+        if(item['keywords'] !== undefined){
+            results.push(item['keywords'])     
+        }
+        if(i===data.length-1){
+      // Switch case for msg.reply handle
+    const model = x;
+    switch(model){
+      case RWD:
+       msg.reply(`Responsive Web Design keywords are:${results}`)
+       break
+       case JS:
+       msg.reply(`JavaScript Algorithms and Data Structures keywords are:${results}`)
+       break
+       case FEdev:
+       msg.reply(`Front End Development Libraries keywords are:${results}`)
+       break
+       default:
+       msg.reply('There is no exisitng subject')
+       break
     }
+           }
+      })}
+      })
+      
 
-    // collectionKeys(JS)
-    // collectionKeys(FEdev)
+    if(showRWD){findKW(RWD)}
+    if(showJS) {findKW(JS)} 
+    if(showFED) {findKW(FEdev)} 
+    
+    // if(showAll){
+    //   findKW(RWD)
+    //   findKW(JS)
+    //   findKW(FEdev)
+    // }
+
   }
 
 
