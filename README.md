@@ -1,6 +1,9 @@
 # 🤖 Discord Bot Helper 🤖 - FCC Certifications and Curriculums | 📍 [Live Bot](https://replit.com/@OrchaniousS/fcc-discordBot?v=1) 📍
-# 
+# 👨‍🏫 About
 FCC discord bot which helps you get more information about available certifications and resources for coding.
+
+## 👀 Instructions and usage
+## Click this [link](https://discord.com/api/oauth2/authorize?client_id=829028725273788476&permissions=0&scope=bot) and wait for a popup, after that select a server from the selection scroll to add the bot to.
 #
 - Bot is running 24/7 with the help of [🟢 UptimeRobot](https://uptimerobot.com/)
 #
@@ -19,7 +22,7 @@ Machine Learning with Python | [Link](https://www.freecodecamp.org/learn/machine
 Coding Interview Prep | [Link](https://www.freecodecamp.org/learn/coding-interview-prep/) | [] | ❌
 
 #
-## Technologies Used:
+## 👨‍💻 Technologies Used:
 - Backend: NodeJS, Discord.js.
 - Backend framework: Express.
 - Database: MongoDB
@@ -28,7 +31,7 @@ Coding Interview Prep | [Link](https://www.freecodecamp.org/learn/coding-intervi
 #
 
 
-### Todo:
+### 🛠 Todo 🛠:
 - Add remaining Curcriculums.
 - Add delete command for blank keywords and records.
 - Change mongoose schema with auto trim options.
