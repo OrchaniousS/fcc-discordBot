@@ -2,6 +2,7 @@
 # 
 FCC discord bot which helps you get more information about available certifications and resources for coding.
 #
+- Bot is running 24/7 with the help of [🟢 UptimeRobot](https://uptimerobot.com/)
 #
 Certification | Link | Keywords | Availability
 :--- | :---: | :--- | :---:
@@ -25,3 +26,10 @@ Coding Interview Prep | [Link](https://www.freecodecamp.org/learn/coding-intervi
 - Server maintence: cors.
 #
 #
+
+
+### Todo:
+- Add remaining Curcriculums.
+- Add delete command for blank keywords and records.
+- Change mongoose schema with auto trim options.
+- * After finishing this bot 100% - Make same bot  in python instead of node.js
