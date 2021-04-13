@@ -4,7 +4,7 @@ const mongoDB = require('mongodb')
 const stayOn = require('./server')
 
 // MongoDB models
-const {RWD,JS,FEdev} = require('./models/zmodels.js')
+const {RWD,JS,FEdev,DV3} = require('./models/zmodels.js')
 
 // usable as alternative to fetch or axios packages for REST api requests.
 // const fetch = require('node-fetch')
@@ -44,7 +44,7 @@ client.on('message',async (msg) =>{
       $new rwd - Insert new keywords for Responsive Web Design.
       $new js - Insert new keywords for JavaScript Algorithms and Data Structures.
       $new fed - Insert new keywords for Front End Development Libraries.
-      $new dv - Insert new keywords for Data Visualization.
+      $new dv3 - Insert new keywords for Data Visualization.
       $new apis - Insert new keywords for APIs and Microservices.
       $new qa - Insert new keywords for Quality Assurance.
       $new scpy - Insert new keywords for Scientific Computing with Python.
@@ -70,10 +70,12 @@ client.on('message',async (msg) =>{
   var rwdKeyword = msg.content.split('$new rwd ')[1]
   var jsKeyword = msg.content.split('$new js ')[1]
   var fedvKeyword = msg.content.split('$new fed ')[1]
+  var dv3Keyword = msg.content.split('$new dv3 ')[1]
 
   var rwdKW = new RWD({keywords:rwdKeyword})
   var jsKW = new JS({keywords:jsKeyword})
   var fedvKW = new FEdev({keywords:fedvKeyword})
+  var dv3KW = new DV3({keywords:dv3Keyword})
 
   const saveKeyWord = (collection) =>
     collection.save((err,savedKey)=>{
@@ -88,6 +90,7 @@ client.on('message',async (msg) =>{
   if(rwdKW) return saveKeyWord(rwdKW)
   if(jsKW) return saveKeyWord(jsKW)
   if(fedvKW) return saveKeyWord(fedvKW)
+  if(dv3KW) return saveKeyWord(dv3KW)
   }
   // END[Save: new keyword per collection]
 
@@ -115,13 +118,12 @@ client.on('message',async (msg) =>{
     const showRWD =  msg.content.split('$show rwd').length === 2
     const showJS =  msg.content.split('$show js').length === 2
     const showFED =  msg.content.split('$show fed').length === 2
+    const showDV3 =  msg.content.split('$show dv3').length === 2
 
     let results = [];
 
     // Find keywords by model name
     const findKW = (x) => x.find((err,data)=>{
-
-
       if(err || !data) return console.log('No keyword found')
       else{return data.map((item,i)=>{
         if(item['keywords'] !== undefined){
@@ -140,6 +142,9 @@ client.on('message',async (msg) =>{
        case FEdev:
        msg.reply(`Front End Development Libraries keywords are:${results}`)
        break
+       case DV3:
+       msg.reply(`Data Visualization keywords are:${results}`)
+       break
        default:
        msg.reply('There is no exisitng subject')
        break
@@ -147,11 +152,10 @@ client.on('message',async (msg) =>{
            }
       })}
       })
-      
-
     if(showRWD){findKW(RWD)}
     if(showJS) {findKW(JS)} 
-    if(showFED) {findKW(FEdev)} 
+    if(showFED){findKW(FEdev)} 
+    if(showDV3){findKW(DV3)} 
     
     // if(showAll){
     //   findKW(RWD)
@@ -212,9 +216,25 @@ client.on('message',async (msg) =>{
     }
   })
 
+// 4. Data Visualization
+  await DV3.find(function(err,data){
+    if(err || !data){msg.reply('Sorry, we haven`t any links on this subject.')}
+    else{
+    data.some(item=>{
+      if(item['keywords']){
+      item['keywords'] = item['keywords'].toLowerCase()
+      if(msg.content.toLowerCase().split(' ').includes(item['keywords'])||
+      msg.content.toLowerCase().includes(item['keywords'])){
+    msg.reply(`Data Visualization Certification (300 Hours)
+    https://www.freecodecamp.org/learn/data-visualization/`)
+      }
+      }
+    })
+    }
+  })
+
 
 })
-
 
 // Keep bot online thru 'uptimerobot' website
 stayOn()
